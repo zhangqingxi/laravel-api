@@ -49,6 +49,7 @@ class RateLimitMiddleware
         } else {
 
             $redis->set($key, 1);
+
             $redis->expire($key, $decaySeconds);
         }
 

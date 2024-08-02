@@ -57,6 +57,7 @@ class LogRequestResponseMiddleware
 
         //获取指定的headers
         $headers = [
+            'Accept-Language' => $request->header('accept-language'),
             'X-AES-KEY' => $request->header('x-aes-key'),
             'Content-Type' => $request->header('content-type'),
             'Authorization' => $request->header('authorization'),

@@ -9,6 +9,7 @@ use App\Http\Middleware\PreventDuplicateRequestsMiddleware;
 use App\Http\Middleware\RateLimitMiddleware;
 use App\Http\Middleware\RouteMiddleware;
 use App\Http\Middleware\ConvertKeysMiddleware;
+use App\Http\Middleware\SetLanguageMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -28,7 +29,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->appendToGroup('admin', [
-            RouteMiddleware::class,  //路由 【第一个执行】
+            SetLanguageMiddleware::class,  //设置语言包 【第一个执行】
+            RouteMiddleware::class,  //路由
             CorsMiddleware::class,  // 跨域
             RateLimitMiddleware::class,  //请求频率限制
             PreventDuplicateRequestsMiddleware::class,  //重复请求
@@ -43,6 +45,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->report(function (\Throwable $e){
+            file_put_contents('a.log', json_encode([$e->getFile(), $e->getLine(), $e->getMessage()], JSON_PRETTY_PRINT), FILE_APPEND);
+//            echo $e->getMessage();
 //            dd($e);
             return false;
         });

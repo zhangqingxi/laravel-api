@@ -17,9 +17,10 @@ return [
     'route_prefix' => env('ADMIN_URL_PREFIX', 'admin'),
     'url' => env('ADMIN_URL', ''),
     'enable_encryption' => env('ADMIN_ENABLE_ENCRYPTION', true), // 是否启用加密'
-    'ws' => [
-        'url' => env('ADMIN_WS_URL', ''),
-        'port' => env('ADMIN_WS_PORT', ''),
+    'websocket' => [
+        'host' => env('ADMIN_WEBSOCKET_HOST', '127.0.0.1'),
+        'url' => env('ADMIN_WEBSOCKET_URL', 'ws://127.0.0.1:9501'),
+        'port' => env('ADMIN_WEBSOCKET_PORT', '9501'),
     ],
     'login' => [
         // 最大尝试登录次数，超过这个次数将导致账户被锁定
@@ -39,7 +40,7 @@ return [
 
     'request' => [
         // 最大请求次数限制，用于防止过多的请求导致服务器负担过重
-        'max_requests' => 60,
+        'max_requests' => 600,
         // 请求频率过期时间，单位为分钟，用于监控单位时间内请求上限
         'time_limit' => 1,
         // 请求的过期时间，单位为分钟，用于清理过期的请求记录

@@ -32,6 +32,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e): JsonResponse|Response
     {
+
         // 检查异常类型并设置适当的消息和状态码
         $msg = message('general_error');
         $data = [];

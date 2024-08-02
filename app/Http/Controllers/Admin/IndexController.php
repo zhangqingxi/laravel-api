@@ -26,7 +26,7 @@ class IndexController extends BaseController
             'public_key' => base64_encode($publicKey),
             'encryption_enabled' => config('admin.enable_encryption'),
             'api_url' => config('admin.url') . '/' . config('admin.route_prefix'),
-            'ws_url' => config('admin.ws.url') . ':' . config('admin.ws.port'),
+            'ws_url' => config('admin.websocket.url'),
         ];
 
         return json(AdminStatusCodes::SUCCESS, $this->getMessage('fetch_success'), $data);

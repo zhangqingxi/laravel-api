@@ -29,6 +29,8 @@ class CommonStatusCodes
     const TOKEN_NOT_PROVIDED = 6601;
     //即将过期
     const TOKEN_EXPIRED_REFRESH = 6602;
+    //异地登录
+    const TOKEN_EXPIRED_LOGIN_OTHER_DEVICE = 6603;
 
     //路由
     const ROUTE_NOT_FOUND = 6700;

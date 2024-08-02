@@ -6,16 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel-lang/lang": "^15.5",
-        "laravel/framework": "^11.0",
-        "laravel/octane": "^2.5",
-        "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.9",
-        "predis/predis": "^2.2",
-        "torann/geoip": "^3.0",
+        "ext-fileinfo": "*",
         "ext-openssl": "*",
         "ext-redis": "*",
-        "ext-fileinfo": "*"
+        "hhxsv5/laravel-s": "^3.8",
+        "laravel-lang/lang": "^15.5",
+        "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.9",
+        "torann/geoip": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
