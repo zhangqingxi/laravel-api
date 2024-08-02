@@ -24,4 +24,5 @@ composer.lock
 public/admin
 public/chunks
 storage/logs
+public/nginx.htaccess
 
