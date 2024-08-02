@@ -10,6 +10,11 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationCodeMail;
 
+/**
+ * 发送邮件队列任务
+ * @Auther Qasim
+ * @date 2023/6/28
+ */
 class SendMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;

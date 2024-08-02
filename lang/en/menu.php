@@ -59,4 +59,6 @@ return [
     'file_upload' => 'Upload Files',
     'file_update' => 'Update Files',
     'file_delete' => 'Delete Files',
+    'file_batch' => 'Batch Files',
+    'file_unused' => 'Cancel association files',
 ];

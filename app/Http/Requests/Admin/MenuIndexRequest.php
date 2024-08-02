@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\Admin\File;
-use Illuminate\Http\UploadedFile;
-
 /**
  * @property $string $name 菜单名称
  * @property int $status 状态

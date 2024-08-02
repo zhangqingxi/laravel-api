@@ -68,30 +68,6 @@ class ConvertKeysMiddleware
         return $camelCaseArray;
     }
 
-
-    /**
-     * 递归地将数组的键名转换为下划线风格
-     *
-     * @param array $array
-     * @return array
-     */
-    private function convertKeysToSnakeCase(array $array): array
-    {
-        $snakeCaseArray = [];
-
-        foreach ($array as $key => $value) {
-            $snakeCaseKey = $this->camelToSnake($key);
-
-            if (is_array($value)) {
-                $value = $this->convertKeysToSnakeCase($value);
-            }
-
-            $snakeCaseArray[$snakeCaseKey] = $value;
-        }
-
-        return $snakeCaseArray;
-    }
-
     /**
      * 根据指定的转换类型转换单个键名
      *

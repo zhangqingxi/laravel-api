@@ -2,11 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\CommonStatusCodes;
 use App\Exceptions\CustomException;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * NUll转空字符串中间件

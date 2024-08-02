@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Models\Admin\RecycleBin;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class ModelDeleteListener
 {

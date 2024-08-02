@@ -6,6 +6,7 @@ use App\Events\ModelDeleteEvent;
 use App\Events\ModelLogEvent;
 use App\Listeners\ModelDeleteListener;
 use App\Listeners\ModelLogListener;
+use App\Observers\ModelObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,10 +23,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
 
-//        ModelLogEvent::class => [
-//            ModelLogListener::class,
-//        ],
-//
+        ModelLogEvent::class => [
+            ModelLogListener::class,
+        ],
+
         ModelDeleteEvent::class => [
             ModelDeleteListener::class,
         ],
@@ -40,6 +41,13 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
+        //注册观察者
+        $observers = config('admin.event.observers');
+
+        foreach ($observers as $observer) {
+
+            $observer::observe(ModelObserver::class);
+        }
     }
 
 }

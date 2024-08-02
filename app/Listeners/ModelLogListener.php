@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\ModelLogEvent;
 use App\Models\Admin\OperationLog;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ModelLogListener
 {

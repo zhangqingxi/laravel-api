@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-
 /**
  * @property array $ids 资源IDs
  * @property string $type 操作类型

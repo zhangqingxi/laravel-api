@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Constants\CommonStatusCodes;
 use App\Exceptions\CustomException;
-use App\Jobs\Admin\UpdateRequestLog;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\JsonResponse;
@@ -65,14 +64,14 @@ class EncryptResponseMiddleware
         // 验证请求是否过期
         if (!$requestTime) {
 
-//            throw new CustomException(message('request_expired'), CommonStatusCodes::REQUEST_EXPIRED);
+            throw new CustomException(message('request_expired'), CommonStatusCodes::REQUEST_EXPIRED);
         }
 
         // 解析请求时间
         $requestTime = Carbon::parse($requestTime);
 
         //请求过期时间
-        $requestExpiredTime = config($routeName . '.request.expired_time');
+        $requestExpiredTime = config($routeName . '.request.expired_time') * 60; //转换为秒
 
         // 计算当前时间与请求时间的差值（以秒为单位）
         $timeDifference = now()->diffInSeconds($requestTime);
@@ -80,7 +79,7 @@ class EncryptResponseMiddleware
         // 检查时间差是否超过允许的过期时间
         if ($timeDifference < 0 && abs($timeDifference) > $requestExpiredTime) {
 
-//            throw new CustomException(message('request_expired'), CommonStatusCodes::REQUEST_EXPIRED);
+            throw new CustomException(message('request_expired'), CommonStatusCodes::REQUEST_EXPIRED);
         }
     }
 

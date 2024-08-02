@@ -6,9 +6,6 @@ use App\Constants\CommonStatusCodes;
 use App\Exceptions\CustomException;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Redis\Connections\Connection;
-use Illuminate\Support\Facades\Redis;
-use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * 请求频率限制中间件

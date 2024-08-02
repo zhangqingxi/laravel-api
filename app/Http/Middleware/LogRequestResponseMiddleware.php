@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Jobs\Admin\ProcessRequestLog;
+use App\Jobs\Admin\ProcessRequestLogJob;
 use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -105,6 +105,6 @@ class LogRequestResponseMiddleware
             ];
         }
 
-        ProcessRequestLog::dispatch($logData)->onConnection('sync');
+        ProcessRequestLogJob::dispatch($logData)->onConnection('sync');
     }
 }

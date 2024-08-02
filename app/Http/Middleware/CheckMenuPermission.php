@@ -34,7 +34,7 @@ class CheckMenuPermission
 
         $route = str_replace(['.', $routeName], ['/', ''], $request->route()->getName());
 
-        $menu = Menu::whereRoute($route)->first();
+        $menu = Menu::where('route', $route)->first();
 
         //没有获取到菜单
         if (!$menu) {

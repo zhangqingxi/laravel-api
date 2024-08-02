@@ -3,9 +3,7 @@
 namespace App\Providers;
 
 use App\Exceptions\Handler;
-use App\Observers\ModelObserver;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,13 +30,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
-
-        //注册观察者
-        $observers = config('admin.event.observers');
-
-        foreach ($observers as $observer) {
-
-            $observer::observe(ModelObserver::class);
-        }
     }
 }

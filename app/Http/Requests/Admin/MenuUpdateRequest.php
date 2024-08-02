@@ -2,10 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-
-
-use App\Models\Admin\Menu;
-
 /**
  * @property int $id 上级菜单ID
  * @property int|null $sort 排序

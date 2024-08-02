@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Constants\CommonStatusCodes;
 use App\Exceptions\CustomException;
-use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use App\Services\AesEncryptionService;

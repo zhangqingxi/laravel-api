@@ -57,4 +57,6 @@ return [
     'file_upload' => '上传文件',
     'file_update' => '更新文件',
     'file_delete' => '删除文件',
+    'file_batch' => '批量文件',
+    'file_unused' => '取消关联',
 ];

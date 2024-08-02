@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\AdminStatusCodes;
 use App\Http\Requests\Admin\LoginRequest;
-use App\Jobs\Admin\UpdateLoginDetails;
+use App\Jobs\Admin\UpdateLoginDetailsJob;
 use App\Models\Admin\Admin;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\AdminException;
@@ -93,7 +93,7 @@ class AuthController extends BaseController
         $admin->save();
 
         // 异步更新登录信息
-        UpdateLoginDetails::dispatch($admin, $request->ip())->onConnection('admin');
+        UpdateLoginDetailsJob::dispatch($admin, $request->ip())->onConnection('admin');
 
         return json(AdminStatusCodes::SUCCESS, $this->getMessage('login_success'), ['token' => $token]);
     }

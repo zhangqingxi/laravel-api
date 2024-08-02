@@ -6,8 +6,6 @@ use App\Constants\CommonStatusCodes;
 use App\Exceptions\CustomException;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * 防止重复请求中间件
@@ -36,7 +34,7 @@ class PreventDuplicateRequestsMiddleware
             $redis = redis($routeName);
 
             //时间间隔
-            $decaySeconds = config($routeName . '.duplicate_time') * 60; //转换为秒
+            $decaySeconds = config($routeName . '.duplicate_time');
 
             // 检查请求 ID 是否存在
             if ($redis->get($key)) {

@@ -19,4 +19,9 @@ yarn-error.log
 /.vscode
 /storage/keys
 _ide*
+.DS_Store
+composer.lock
+public/admin
+public/chunks
+storage/logs
 

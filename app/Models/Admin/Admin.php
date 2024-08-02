@@ -52,7 +52,7 @@ class Admin extends Authenticatable
     ];
 
     /**
-     * 管理员校色
+     * 管理员角色
      * @return BelongsToMany
      */
     public function roles(): BelongsToMany

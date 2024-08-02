@@ -2,10 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-
-
-use App\Models\Admin\Menu;
-
 /**
  * @property int $id 菜单ID
  */
