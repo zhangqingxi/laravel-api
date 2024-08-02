@@ -25,4 +25,6 @@ public/admin
 public/chunks
 storage/logs
 public/nginx.htaccess
+storage/laravels
+storage/laravels.conf
 

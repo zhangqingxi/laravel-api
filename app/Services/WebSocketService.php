@@ -45,12 +45,7 @@ class WebSocketService implements WebSocketHandlerInterface
     public function onClose(Server $server, $fd, $reactorId): void
     {
 
-        echo "客户端已关闭：{$fd}\n";
-
-        if($this->wsTable->has($fd)){
-
-            $this->wsTable->del($fd);
-        }
+        //TODO LARAVELS_DISPATCH_MODE === 3 不会触发  又要实现，服了
     }
 
 
