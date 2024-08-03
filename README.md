@@ -2,6 +2,9 @@
 
 本项目基于 Laravel 11 和 PHP 8.2 构建，包含多种中间件、功能模块和 API 接口，支持 Swoole 和 WebSocket 功能。
 
+## Web
+- [laravel-web](https://github.com/zhangqingxi/laravel-web)
+
 ## 功能模块
 
 ### 中间件
