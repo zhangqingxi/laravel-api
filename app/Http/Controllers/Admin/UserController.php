@@ -74,14 +74,13 @@ class UserController extends BaseController
      */
     public function info(): JsonResponse
     {
+
         $admin = Auth::guard('admin')->user();
 
         if (!$admin) {
 
             throw new AdminException($this->getMessage('token_invalid'), AdminStatusCodes::UNAUTHORIZED);
         }
-
-
 
         return json(AdminStatusCodes::SUCCESS, $this->getMessage('fetch_success'), [
                 'userid' => $admin->id,
