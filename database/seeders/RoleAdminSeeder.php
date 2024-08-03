@@ -18,7 +18,7 @@ class RoleAdminSeeder extends Seeder
         $adminUser = Admin::where('account', 'admin')->first();
         $visitorUser = Admin::where('account', 'visitor')->first();
 
-        $adminUser->roles()->attach(1, ['created_at' => now(), 'updated_at' => now()]);
-        $visitorUser->roles()->attach(2, ['created_at' => now(), 'updated_at' => now()]);
+        $adminUser->roles()->attach(1);
+        $visitorUser->roles()->attach(2);
     }
 }

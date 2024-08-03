@@ -24,11 +24,11 @@ class RoleMenuSeeder extends Seeder
 
         foreach ($menus as $menu) {
 
-            $adminRole->menus()->attach($menu->id, ['created_at' => now(), 'updated_at' => now()]);
+            $adminRole->menus()->attach($menu->id);
         }
 
         $userMenu = Menu::where('name', 'Dashboard')->first();
 
-        $userRole->menus()->attach($userMenu->id, ['created_at' => now(), 'updated_at' => now()]);
+        $userRole->menus()->attach($userMenu->id);
     }
 }

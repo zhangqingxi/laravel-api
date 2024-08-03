@@ -36,7 +36,7 @@ class MenuSeeder extends Seeder
             ['id' => 12, 'pid' => 4, 'name' => 'file_manage', 'path' => 'file', 'component' => '/resource/file/index', 'route' => '', 'icon' => 'ant-design:file-outlined', 'visible' => true, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 13, 'pid' => 5, 'name' => 'request_log', 'path' => 'request', 'component' => '/log/request/index', 'route' => '', 'icon' => 'ant-design:message-outlined', 'visible' => true, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 14, 'pid' => 5, 'name' => 'operation_log', 'path' => 'operation', 'component' => '/log/operation/index', 'route' => '', 'icon' => 'ant-design:bug-outlined', 'visible' => true, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
-s        ];
+        ];
 
         Menu::insert($secondsMenus);
 
@@ -66,7 +66,7 @@ s        ];
             ['id' => 36, 'pid' => 12, 'name' => 'file_update', 'path' => 'update', 'component' =>  '', 'route' => '/file/update', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 37, 'pid' => 12, 'name' => 'file_upload', 'path' => 'upload', 'component' =>  '', 'route' => '/file/upload', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 38, 'pid' => 12, 'name' => 'file_delete', 'path' => 'delete', 'component' =>  '', 'route' => '/file/delete', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 38, 'pid' => 12, 'name' => 'file_batch', 'path' => 'batch', 'component' =>  '', 'route' => '/file/batch', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 39, 'pid' => 12, 'name' => 'file_batch', 'path' => 'batch', 'component' =>  '', 'route' => '/file/batch', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 40, 'pid' => 12, 'name' => 'file_unused', 'path' => 'unused', 'component' =>  '', 'route' => '/file/unused', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 41, 'pid' => 13, 'name' => 'request_log_index', 'path' => 'index', 'component' =>  '', 'route' => '/log/request/index', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 42, 'pid' => 13, 'name' => 'request_log_delete', 'path' => 'delete', 'component' =>  '', 'route' => '/log/request/delete', 'icon' => '', 'visible' => false, 'status' => 1, 'created_at' => now(), 'updated_at' => now()],

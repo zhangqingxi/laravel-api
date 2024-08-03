@@ -23,13 +23,13 @@ class SetLanguageMiddleware
     public function handle(Request $request, Closure $next): mixed
     {
         // 获取 Accept-Language 头部
-        $acceptLanguage = $request->header('Accept-Language');
+        $acceptLanguage = $request->header('Accept-Language', 'zh-CN');
 
         // 解析语言标识
         $preferredLanguage = $this->parsePreferredLanguage($acceptLanguage);
 
         // 设置应用语言
-        app()->setLocale($preferredLanguage);
+        app()->setLocale(str_replace('-', '_', $preferredLanguage));
 
         // 继续处理请求
         return $next($request);

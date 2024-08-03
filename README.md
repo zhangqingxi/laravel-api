@@ -52,7 +52,7 @@
 
 4. 配置数据库
     ```
-    php artisan migrate --path=/database/admin
+    php artisan migrate:fresh --path=/database/migrations/admin
     php artisan db:seed --class=AdminSeeder
     php artisan db:seed --class=RoleSeeder
     php artisan db:seed --class=MenuSeeder
@@ -64,6 +64,12 @@
     ```
     php bin/laravels start
    ```
+
+6. 补充
+   1. 在storage目录下补充laravels、logs、keys目录
+   2. 在storage/keys目录下 补充公钥、私钥文件 
+   如：admin_private.pem admin_public.pem
+
 ###  部署
 通过Supervisord监管主进程，前提是不能加-d选项并且设置swoole.daemonize为false。
 ```

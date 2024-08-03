@@ -45,9 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->report(function (\Throwable $e){
-            file_put_contents('a.log', json_encode([$e->getFile(), $e->getLine(), $e->getMessage()], JSON_PRETTY_PRINT), FILE_APPEND);
-//            echo $e->getMessage();
-//            dd($e);
+//            \Illuminate\Support\Facades\Log::error($e);
             return false;
         });
     })->create();
