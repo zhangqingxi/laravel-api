@@ -83,6 +83,11 @@ class Admin extends Authenticatable
     public function getLastLoginAddressAttribute(): string
     {
 
+        if(!$this->last_login_at){
+
+            return '';
+        }
+
         if($this->login_ip === '127.0.0.1'){
 
             return '内网';

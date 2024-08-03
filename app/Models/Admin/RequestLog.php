@@ -71,6 +71,11 @@ class RequestLog extends Base
     public function getIpAddressAttribute(): string
     {
 
+        if(!$this->last_login_at){
+
+            return '';
+        }
+
         if($this->ip === '127.0.0.1'){
 
             return '内网';

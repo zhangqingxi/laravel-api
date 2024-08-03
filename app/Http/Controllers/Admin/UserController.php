@@ -97,7 +97,7 @@ class UserController extends BaseController
                 'account'=> $admin->account,
                 'email'=> $admin->email,
                 'register_time'=> $admin->created_at->format('Y-m-d H:i:s'),
-                'last_login_time'=> $admin->last_login_at->format('Y-m-d H:i:s'),
+                'last_login_time'=> $admin->last_login_at ? $admin->last_login_at->format('Y-m-d H:i:s') : '',
                 'last_login_address'=> $admin->getLastLoginAddressAttribute(),
             ]
         );
