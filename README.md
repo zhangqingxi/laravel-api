@@ -76,16 +76,29 @@
 ###  部署
 通过Supervisord监管主进程，前提是不能加-d选项并且设置swoole.daemonize为false。
 ```
-[program:laravel-s-test]
+[program:laravel-swoole]
 directory=[项目目录]
 command=/usr/local/bin/php bin/laravels start -i
 numprocs=1
 autostart=true
 autorestart=true
 startretries=3
-user=www-data
+user=www
 redirect_stderr=true
 stdout_logfile=/www/logs/supervisor/%(program_name)s.log
+```
+
+```
+[program:laravel-worker]
+directory=[项目目录]
+command=/usr/local/bin/php [项目目录]/artisan queue:work --tries=3 --queue=admin
+numprocs=1
+autostart=true
+autorestart=true
+startretries=3
+user=www
+redirect_stderr=true
+stdout_logfile=/path/to/your/laravel-project/storage/logs/worker.log
 ```
 
 ### Nginx
