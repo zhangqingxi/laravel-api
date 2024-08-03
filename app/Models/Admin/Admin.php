@@ -78,6 +78,23 @@ class Admin extends Authenticatable
     }
 
     /**
+     * 获取用户头像
+     * @throws \Exception
+     */
+    public function getAvatar(): string
+    {
+
+        $avatar = '';
+
+        if($file = $this->avatar()->first()){
+
+            $avatar = $file->url;
+        }
+
+        return $avatar;
+    }
+
+    /**
      * @throws \Exception
      */
     public function getLastLoginAddressAttribute(): string

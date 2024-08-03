@@ -52,16 +52,8 @@ class UserController extends BaseController
         //总条数
         $items->each(function ($admin) {
 
-
-            $avatar = '';
-
-            if($file = $admin->avatar()->first()){
-
-                $avatar = $file->url;
-            }
-
             //设置头像
-            $admin->setAttribute('avatar', $avatar);
+            $admin->setAttribute('avatar', $admin->getAvatar());
             $admin->setAttribute('register_time', $admin->created_at->format('Y-m-d H:i:s'));
             $admin->setAttribute('last_login_time', $admin->last_login_at ? $admin->last_login_at->format('Y-m-d H:i:s') : '');
             $admin->setAttribute('roles', $admin->roles);
@@ -89,10 +81,12 @@ class UserController extends BaseController
             throw new AdminException($this->getMessage('token_invalid'), AdminStatusCodes::UNAUTHORIZED);
         }
 
+
+
         return json(AdminStatusCodes::SUCCESS, $this->getMessage('fetch_success'), [
                 'userid' => $admin->id,
                 'phone' => $admin->phone,
-                'avatar' => $admin->avatar ? $admin->avatar->url : '',
+                'avatar' => $admin->getAvatar(),
                 'nickname' => $admin->nickname,
                 'account'=> $admin->account,
                 'email'=> $admin->email,
