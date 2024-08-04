@@ -72,104 +72,123 @@
    1. 在storage目录下补充laravels、logs、keys目录
    2. 在storage/keys目录下 补充公钥、私钥文件 
    如：admin_private.pem admin_public.pem
+   3. 如果运行失败，检查目录权限、日志
 
 ###  部署
-通过Supervisord监管主进程，前提是不能加-d选项并且设置swoole.daemonize为false。
-```
-[program:laravel-swoole]
-directory=[项目目录]
-command=/usr/local/bin/php bin/laravels start -i
-numprocs=1
-autostart=true
-autorestart=true
-startretries=3
-user=www
-redirect_stderr=true
-stdout_logfile=/www/logs/supervisor/%(program_name)s.log
-```
+#### Supervisord
+通过Supervisord监管主进程，前提是命令不可以设置在后台运行
+1. 启动项目
+    ```
+    [program:laravel-swoole]
+    directory=[项目目录]
+    command=/usr/local/bin/php bin/laravels start -i
+    numprocs=1
+    autostart=true
+    autorestart=true
+    startretries=3
+    user=www
+    redirect_stderr=true
+    stdout_logfile=/path/to/your/laravel-project/storage/logs/swoole.log
+    ```
 
-```
-[program:laravel-worker]
-directory=[项目目录]
-command=/usr/local/bin/php [项目目录]/artisan queue:work --tries=3 --queue=admin
-numprocs=1
-autostart=true
-autorestart=true
-startretries=3
-user=www
-redirect_stderr=true
-stdout_logfile=/path/to/your/laravel-project/storage/logs/worker.log
-```
+2. 队列
+    ```
+    [program:laravel-queue]
+    directory=[项目目录]
+    command=/usr/local/bin/php [项目目录]/artisan queue:work --tries=3 --queue=admin
+    numprocs=1
+    autostart=true
+    autorestart=true
+    startretries=3
+    user=www
+    redirect_stderr=true
+    stdout_logfile=/path/to/your/laravel-project/storage/logs/queue.log
+    ```
 
-### Nginx
-```
-map $http_upgrade $connection_upgrade {
-    default upgrade;
-    ''      close;
-}
-upstream swoole {
-    # 通过 IP:Port 连接
-    server 127.0.0.1:5200 weight=5 max_fails=3 fail_timeout=30s;
-    # 通过 UnixSocket Stream 连接，小诀窍：将socket文件放在/dev/shm目录下，可获得更好的性能
-    #server unix:/yourpath/laravel-s-test/storage/laravels.sock weight=5 max_fails=3 fail_timeout=30s;
-    #server 192.168.1.1:5200 weight=3 max_fails=3 fail_timeout=30s;
-    #server 192.168.1.2:5200 backup;
-    keepalive 16;
-}
-server {
-    listen 80;
-    # 别忘了绑Host
-    server_name laravels.com;
-    root /yourpath/laravel-s-test/public;
-    access_log /yourpath/log/nginx/$server_name.access.log  main;
-    autoindex off;
-    index index.html index.htm;
-    # Nginx处理静态资源(建议开启gzip)，LaravelS处理动态资源。
-    location / {
-        try_files $uri @laravels;
+3. 定时任务
+    ```
+    [program:laravel-schedule]
+    directory=[项目目录]
+    command=/usr/bin/php [项目目录]/artisan schedule:work
+    numprocs=1
+    autostart=true
+    autorestart=true
+    startretries=3
+    user=www
+    redirect_stderr=true
+    stdout_logfile=/path/to/your/laravel/application/storage/logs/schedule.log
+    ```
+
+#### Nginx
+1. 反向代理
+    ```
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
     }
-    # 当请求PHP文件时直接响应404，防止暴露public/*.php
-    #location ~* \.php$ {
-    #    return 404;
-    #}
-    # Http和WebSocket共存，Nginx通过location区分
-    # !!! WebSocket连接时路径为/ws
-    # Javascript: var ws = new WebSocket("ws://laravels.com/ws");
-    location =/ws {
-        # proxy_connect_timeout 60s;
-        # proxy_send_timeout 60s;
-        # proxy_read_timeout：如果60秒内被代理的服务器没有响应数据给Nginx，那么Nginx会关闭当前连接；同时，Swoole的心跳设置也会影响连接的关闭
-        # proxy_read_timeout 60s;
-        proxy_http_version 1.1;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Real-PORT $remote_port;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header Scheme $scheme;
-        proxy_set_header Server-Protocol $server_protocol;
-        proxy_set_header Server-Name $server_name;
-        proxy_set_header Server-Addr $server_addr;
-        proxy_set_header Server-Port $server_port;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-        proxy_pass http://swoole;
+    upstream swoole {
+        # 通过 IP:Port 连接
+        server 127.0.0.1:5200 weight=5 max_fails=3 fail_timeout=30s;
+        # 通过 UnixSocket Stream 连接，小诀窍：将socket文件放在/dev/shm目录下，可获得更好的性能
+        #server unix:/yourpath/laravel-s-test/storage/laravels.sock weight=5 max_fails=3 fail_timeout=30s;
+        #server 192.168.1.1:5200 weight=3 max_fails=3 fail_timeout=30s;
+        #server 192.168.1.2:5200 backup;
+        keepalive 16;
     }
-    location @laravels {
-        # proxy_connect_timeout 60s;
-        # proxy_send_timeout 60s;
-        # proxy_read_timeout 60s;
-        proxy_http_version 1.1;
-        proxy_set_header Connection "";
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Real-PORT $remote_port;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header Scheme $scheme;
-        proxy_set_header Server-Protocol $server_protocol;
-        proxy_set_header Server-Name $server_name;
-        proxy_set_header Server-Addr $server_addr;
-        proxy_set_header Server-Port $server_port;
-        proxy_pass http://swoole;
+    server {
+        listen 80;
+        # 别忘了绑Host
+        server_name laravels.com;
+        root /yourpath/laravel-s-test/public;
+        access_log /yourpath/log/nginx/$server_name.access.log  main;
+        autoindex off;
+        index index.html index.htm;
+        # Nginx处理静态资源(建议开启gzip)，LaravelS处理动态资源。
+        location / {
+            try_files $uri @laravels;
+        }
+        # 当请求PHP文件时直接响应404，防止暴露public/*.php
+        #location ~* \.php$ {
+        #    return 404;
+        #}
+        # Http和WebSocket共存，Nginx通过location区分
+        # !!! WebSocket连接时路径为/ws
+        # Javascript: var ws = new WebSocket("ws://laravels.com/ws");
+        location =/ws {
+            # proxy_connect_timeout 60s;
+            # proxy_send_timeout 60s;
+            # proxy_read_timeout：如果60秒内被代理的服务器没有响应数据给Nginx，那么Nginx会关闭当前连接；同时，Swoole的心跳设置也会影响连接的关闭
+            # proxy_read_timeout 60s;
+            proxy_http_version 1.1;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Real-PORT $remote_port;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header Scheme $scheme;
+            proxy_set_header Server-Protocol $server_protocol;
+            proxy_set_header Server-Name $server_name;
+            proxy_set_header Server-Addr $server_addr;
+            proxy_set_header Server-Port $server_port;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_pass http://swoole;
+        }
+        location @laravels {
+            # proxy_connect_timeout 60s;
+            # proxy_send_timeout 60s;
+            # proxy_read_timeout 60s;
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Real-PORT $remote_port;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header Scheme $scheme;
+            proxy_set_header Server-Protocol $server_protocol;
+            proxy_set_header Server-Name $server_name;
+            proxy_set_header Server-Addr $server_addr;
+            proxy_set_header Server-Port $server_port;
+            proxy_pass http://swoole;
+        }
     }
-}
-```
+    ```
