@@ -46,7 +46,8 @@
     ```
     composer install
    ```
-   
+    注意：
+    需要php开启安全函数 putenv、proc_open
 3. 复制并修改环境配置文件
     ```
     cp .env.example .env
@@ -85,7 +86,9 @@
     numprocs=1
     autostart=true
     autorestart=true
+    redirect_stderr=true
     startretries=3
+    startsecs=3
     user=www
     redirect_stderr=true
     stdout_logfile=/path/to/your/laravel-project/storage/logs/swoole.log
@@ -99,7 +102,9 @@
     numprocs=1
     autostart=true
     autorestart=true
+    redirect_stderr=true
     startretries=3
+    startsecs=3
     user=www
     redirect_stderr=true
     stdout_logfile=/path/to/your/laravel-project/storage/logs/queue.log
@@ -113,7 +118,9 @@
     numprocs=1
     autostart=true
     autorestart=true
+    redirect_stderr=true
     startretries=3
+    startsecs=3
     user=www
     redirect_stderr=true
     stdout_logfile=/path/to/your/laravel/application/storage/logs/schedule.log
