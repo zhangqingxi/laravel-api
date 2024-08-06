@@ -3,8 +3,10 @@
 namespace App\Exceptions;
 
 use App\Constants\CommonStatusCodes;
+use App\Events\RequestResponseLogEvent;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,15 +70,21 @@ class Handler extends ExceptionHandler
             $code = CommonStatusCodes::ROUTE_NOT_FOUND;
         }
 
-//        // 设置异常信息到请求属性中
-//        $request->attributes->set('exception_data', [
-//            'code' => $e->getCode(),
-//            'msg' => $e->getMessage(),
-//            'file' => $e->getFile(),
-//            'line' => $e->getLine(),
-//        ]);
+        $response = json($code, $msg, $data);
 
-        return json($code, $msg, $data);
+        # 不是自定义异常才记录异常
+        if (!$e instanceof AdminException &&  !$e instanceof CustomException) {
+
+            $response->withException($e);
+        }
+
+        // 触发日志事件
+        event(new RequestResponseLogEvent($request, $response));
+
+        //告知日志中间件已处理
+        $request->attributes->set('log_has_been_processed', true);
+
+        return $response;
 
         // TODO: 其他非API请求的处理逻辑
 //        return parent::render($request, $e);

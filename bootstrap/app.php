@@ -3,6 +3,7 @@
 use App\Http\Middleware\CorsMiddleware;
 use App\Http\Middleware\DecryptRequestMiddleware;
 use App\Http\Middleware\EncryptResponseMiddleware;
+use App\Http\Middleware\ExceptionMiddleware;
 use App\Http\Middleware\LogRequestResponseMiddleware;
 use App\Http\Middleware\NullToEmptyStringMiddleware;
 use App\Http\Middleware\PreventDuplicateRequestsMiddleware;

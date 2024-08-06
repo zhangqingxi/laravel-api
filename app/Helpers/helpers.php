@@ -21,7 +21,6 @@ if (!function_exists('json')) {
      */
     function json(int $code = 0, string $message = '', Collection|array|null $data = [], int $status = 200, array $headers = []): JsonResponse
     {
-
         return response()->json([
             'code' => $code,
             'message' => $message,

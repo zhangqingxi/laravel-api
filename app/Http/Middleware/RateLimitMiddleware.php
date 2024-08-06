@@ -55,6 +55,4 @@ class RateLimitMiddleware
 
         return $next($request);
     }
-
-
 }
