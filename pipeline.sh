@@ -3,6 +3,9 @@ pipeline {
 
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'The branch to build.')
+        string(name: 'API_URL', defaultValue: 'https://laravel-api.145238.xyz', description: 'The Web Api Url.')
+        string(name: 'WS_URL', defaultValue: 'https://laravel-api.145238.xyz/ws', description: 'The WebSocket Url.')
+        string(name: 'CORS_URLS', defaultValue: 'https://laravel-web.145238.xyz, http://localhost:5173', description: 'The Cors Urls.')
     }
 
     environment {
@@ -166,6 +169,11 @@ pipeline {
                         sed -i 's/^ADMIN_DB_USERNAME=.*/ADMIN_DB_USERNAME=${ADMIN_DB_USERNAME}/' ${envFile}
                         sed -i 's/^ADMIN_DB_PASSWORD=.*/ADMIN_DB_PASSWORD=${ADMIN_DB_PASSWORD}/' ${envFile}
                         sed -i 's/^ADMIN_DB_PREFIX=.*/ADMIN_DB_PREFIX=${ADMIN_DB_PREFIX}/' ${envFile}
+
+                        sed -i 's/^APP_URL=.*/APP_URL=${params.API_URL}/' ${envFile}
+                        sed -i 's/^ADMIN_URL=.*/APP_URL=${params.API_URL}/' ${envFile}
+                        sed -i 's/^ADMIN_WEBSOCKET_URL=.*/APP_URL=${params.WS_URL}/' ${envFile}
+                        sed -i 's/^ALLOWED_ORIGINS=.*/APP_URL=${params.CORS_URLS}/' ${envFile}
                     """
                 }
             }
