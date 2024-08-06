@@ -170,10 +170,10 @@ pipeline {
                         sed -i 's/^ADMIN_DB_PASSWORD=.*/ADMIN_DB_PASSWORD=${ADMIN_DB_PASSWORD}/' ${envFile}
                         sed -i 's/^ADMIN_DB_PREFIX=.*/ADMIN_DB_PREFIX=${ADMIN_DB_PREFIX}/' ${envFile}
 
-                        sed -i 's/^APP_URL=.*/APP_URL=${params.API_URL}/' ${envFile}
-                        sed -i 's/^ADMIN_URL=.*/APP_URL=${params.API_URL}/' ${envFile}
-                        sed -i 's/^ADMIN_WEBSOCKET_URL=.*/APP_URL=${params.WS_URL}/' ${envFile}
-                        sed -i 's/^ALLOWED_ORIGINS=.*/APP_URL=${params.CORS_URLS}/' ${envFile}
+                        sed -i 's#^APP_URL=.*\$#APP_URL=${params.API_URL}#' ${envFile}
+                        sed -i 's#^ADMIN_URL=.*\$#ADMIN_URL=${params.API_URL}#' ${envFile}
+                        sed -i 's#^ADMIN_WEBSOCKET_URL=.*\$#ADMIN_WEBSOCKET_URL=${params.WS_URL}#' ${envFile}
+                        sed -i 's#^ALLOWED_ORIGINS=.*\$#ALLOWED_ORIGINS=${params.CORS_URLS}#' ${envFile}
                     """
                 }
             }
