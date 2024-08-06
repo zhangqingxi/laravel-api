@@ -27,11 +27,6 @@ class RouteMiddleware
         //获取路由类型
         $this->setRouteName($request);
 
-        // 生成全局唯一的请求 ID
-        $requestId = (string) Str::uuid();
-
-        $request->attributes->set('request_id', $requestId);
-
         return $next($request);
     }
 

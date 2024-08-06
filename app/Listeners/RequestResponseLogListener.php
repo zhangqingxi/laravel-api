@@ -36,47 +36,52 @@ class RequestResponseLogListener
             'X-Request-ID' => $request->header('x-request-id'),
         ];
 
-        $requestData = $request->attributes->get('request_data');
+        # 必须有请求日志才记录
+        $requestId = $headers['X-Request-ID'];
 
-        if($files = $request->file()){ //涉及文件上传
-            foreach ($files as $file){
-                $requestData['files'][] = [
-                    'name' => $file->getClientOriginalName(),
-                    'mime_type' => $file->getMimeType(),
-                    'size' => $file->getSize(),
-                    'size_text' => format_bytes($file->getSize()),
-                    'extension' => $file->getClientOriginalExtension(),
-                    'hash' => hash_file('sha256', $file->path()),
-                ];
+        if($requestId) {
 
+            $requestData = $request->attributes->get('request_data');
+
+            if($files = $request->file()){ //涉及文件上传
+                foreach ($files as $file){
+                    $requestData['files'][] = [
+                        'name' => $file->getClientOriginalName(),
+                        'mime_type' => $file->getMimeType(),
+                        'size' => $file->getSize(),
+                        'size_text' => format_bytes($file->getSize()),
+                        'extension' => $file->getClientOriginalExtension(),
+                        'hash' => hash_file('sha256', $file->path()),
+                    ];
+                }
             }
-        }
 
-        $logData = [
-            'request_id' => $request->attributes->get('request_id'),
-            'host' => $request->getHost(),
-            'url' => $request->url(),
-            'controller' => class_basename($request->route()->getController()),
-            'method' => $request->method(),
-            'ip' => $request->ip(),
-            'headers' => $headers,
-            'http_status' => $response->status(),
-            'request_data' => $requestData,
-            'encrypt_request_data' => $request->attributes->get('encrypt_request_data'),
-            'response_data' => $request->attributes->get('response_data') ?? $response->getData(true),
-            'encrypt_response_data' => $request->attributes->get('encrypt_response_data'),
-        ];
-
-        //异常数据
-        if ($response->exception) {
-            $logData['exception_data'] = [
-                'code' => $response->exception->getCode(),
-                'msg' => $response->exception->getMessage(),
-                'file' => $response->exception->getFile(),
-                'line' => $response->exception->getLine(),
+            $logData = [
+                'request_id' => $requestId,
+                'host' => $request->getHost(),
+                'url' => $request->url(),
+                'controller' => class_basename($request->route()->getController()),
+                'method' => $request->method(),
+                'ip' => $request->ip(),
+                'headers' => $headers,
+                'http_status' => $response->status(),
+                'request_data' => $requestData,
+                'encrypt_request_data' => $request->attributes->get('encrypt_request_data'),
+                'response_data' => $request->attributes->get('response_data') ?? $response->getData(true),
+                'encrypt_response_data' => $request->attributes->get('encrypt_response_data'),
             ];
-        }
 
-        ProcessRequestLogJob::dispatch($logData)->onConnection('admin');
+            //异常数据
+            if ($response->exception) {
+                $logData['exception_data'] = [
+                    'code' => $response->exception->getCode(),
+                    'msg' => $response->exception->getMessage(),
+                    'file' => $response->exception->getFile(),
+                    'line' => $response->exception->getLine(),
+                ];
+            }
+
+            ProcessRequestLogJob::dispatch($logData)->onConnection('admin');
+        }
     }
 }
