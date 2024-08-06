@@ -34,7 +34,6 @@ class LogRequestResponseMiddleware
 
         // 检查请求是否被重复, 查看日志的请求不需要记录
         if (
-            !$request->attributes->get('is_duplicate') && // 判断是否为重复请求
             !str_contains($request->route()->getPrefix(), 'log') && // 判断是否为日志请求
             !$request->attributes->get('log_has_been_processed') // 判断日志是否已处理
         ) {

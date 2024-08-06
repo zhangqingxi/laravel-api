@@ -39,16 +39,12 @@ class PreventDuplicateRequestsMiddleware
             // 检查请求 ID 是否存在
             if ($redis->get($key)) {
 
-                $request->attributes->set('request_duplicate', true);
-
                 throw new CustomException(message('request_duplicate'), CommonStatusCodes::REQUEST_DUPLICATE);
             }
 
             // 将请求 ID 存储到 Cache 中，并设置过期时间
             $redis->set($key, true);
             $redis->expire($key, $decaySeconds);
-
-            $request->attributes->set('request_duplicate', false);
         }
         return $next($request);
     }

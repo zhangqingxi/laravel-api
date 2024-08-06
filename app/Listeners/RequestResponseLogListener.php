@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\RequestResponseLogEvent;
 use App\Jobs\Admin\ProcessRequestLogJob;
+use App\Models\Admin\RequestLog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -39,7 +40,7 @@ class RequestResponseLogListener
         # 必须有请求日志才记录
         $requestId = $headers['X-Request-ID'];
 
-        if($requestId) {
+        if($requestId && !RequestLog::where('request_id', $requestId)->exists()) {
 
             $requestData = $request->attributes->get('request_data');
 
