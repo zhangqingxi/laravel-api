@@ -317,7 +317,7 @@ return [
         'open_tcp_nodelay'   => true,
         'pid_file'           => storage_path('laravels/laravels.pid'),
         'log_level'          => env('LARAVELS_LOG_LEVEL', 4),
-        'log_file'           => storage_path('laravels/'.sprintf('logs/swoole-%s.log', date('Y-m'))),
+        'log_file'           => storage_path('logs/'.sprintf('swoole-%s.log', date('Y-m'))),
         'document_root'      => base_path('public'),
         'buffer_output_size' => 2 * 1024 * 1024,
         'socket_buffer_size' => 8 * 1024 * 1024,
