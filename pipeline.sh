@@ -138,6 +138,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Restart Supervisor Services') {
+            steps {
+                script {
+                    echo "Notifying Supervisor to restart services..."
+                    sh """
+                        ${SUPERVISOR_CMD} restart all
+                    """
+                }
+            }
+        }
     }
 
     post {

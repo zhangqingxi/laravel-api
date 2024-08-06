@@ -27,7 +27,11 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends BaseController
 {
 
-    //用户列表
+    /**
+     * 用户列表
+     * @param UserListRequest $request
+     * @return JsonResponse
+     */
     public function index(UserListRequest $request)
     {
         //加入分页
