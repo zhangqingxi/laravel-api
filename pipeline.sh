@@ -78,7 +78,7 @@ FQIDAQAB
                 script {
                     echo "Deploying new code..."
                     sh """
-                        rsync -avz --checksum --exclude='.git/' --exclude='commands.lock' --exclude='.user.ini' --exclude='*.pem' --exclude='*.png' --exclude='*.log' ${WORKSPACE}/ ${WEB_DIR}/
+                        rsync -avz --checksum --exclude='.git/' --exclude='commands.lock' --exclude='.user.ini' --exclude='storage/' --exclude='public/admin/' --exclude='public/chunks/' ${WORKSPACE}/ ${WEB_DIR}/
                     """
                     # -a 归档模式，保留文件属性，并递归复制目录
                     # -v 详细模式，显示进度信息
