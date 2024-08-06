@@ -33,11 +33,12 @@ pipeline {
                 script {
                     echo "Deploying new code..."
                     sh """
-                        rsync -avz --delete --checksum --exclude='.git/' --exclude='.user.ini' --exclude='*.log' ${WORKSPACE}/ ${WEB_DIR}/
+                        rsync -avz --ignore-existing --checksum --exclude='.git/' --exclude='.user.ini' --exclude='*.log' ${WORKSPACE}/ ${WEB_DIR}/
                     """
                     # -a 归档模式，保留文件属性，并递归复制目录
                     # -v 详细模式，显示进度信息
                     # -z 选项启用压缩，以减少传输的数据量
+                    # --ignore-existing 忽略已存在的目标文件
                     # --checksum 通过比较文件的校验和（hash）来决定是否更新文件
                     # --exclude 排除目录
                     # --delete 删除目标目录中在源目录中不存在的文件
