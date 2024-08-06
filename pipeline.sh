@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying new code..."
-                    sh "rsync -av --delete ${WORKSPACE}/ ${WEB_DIR}/"
+                    sh "rsync -av --delete --ignore-existing ${WORKSPACE}/ ${WEB_DIR}/"
                 }
             }
         }
