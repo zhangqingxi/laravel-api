@@ -34,7 +34,7 @@ class PreventDuplicateRequestsMiddleware
             $redis = redis($routeName);
 
             //时间间隔
-            $decaySeconds = config($routeName . '.duplicate_time');
+            $decaySeconds = config($routeName . '.request.duplicate_time');
 
             // 检查请求 ID 是否存在
             if ($redis->get($key)) {
