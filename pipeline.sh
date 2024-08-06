@@ -111,8 +111,10 @@ pipeline {
                     def keysDir = "${WEB_DIR}/storage/keys"
 
                     # 创建公钥和私钥文件，并写入内容
-                    sh "echo "${PRIVATE_KEY_CONTENT}" > ${keysDir}/admin_private.pem"
-                    sh "echo "${PUBLIC_KEY_CONTENT}" > ${keysDir}/admin_public.pem"
+                    sh """
+                        echo "${PRIVATE_KEY_CONTENT}" > "${keysDir}/admin_private.pem"
+                        echo "${PUBLIC_KEY_CONTENT}" > "${keysDir}/admin_public.pem"
+                    """
                 }
             }
         }
